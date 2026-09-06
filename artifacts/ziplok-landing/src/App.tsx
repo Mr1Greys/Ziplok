@@ -7,7 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
-import heroPackageImage from '@assets/1b_1788715982983.png';
+import heroPackageImage from '@assets/b11_1788716379606.png';
 
 const queryClient = new QueryClient();
 
