@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "ZiPlok — студия запусков"
+description = "Премиальный адаптивный лендинг студии запусков ZiPlok: упаковка экспертов, продуктов, воронок, контента, продаж и запусков в единую систему."
+version = "1.0.0"
+id = "artifacts/ziplok-landing"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24864
+
+[services.development]
+run = "pnpm --filter @workspace/ziplok-landing run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ziplok-landing", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/ziplok-landing/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24864"
+BASE_PATH = "/"
