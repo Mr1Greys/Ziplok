@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Check, ChevronRight, Menu, Send, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check, Menu, X } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -11,6 +11,37 @@ import heroPackageImage from '@assets/b11_1788716379606.png';
 import chaosPackageImage from '@assets/b2_1788716744756.png';
 
 const queryClient = new QueryClient();
+
+function ZiPlokLogo({ compact = false }: { compact?: boolean }) {
+  return (
+    <span className={`logo-mark${compact ? ' logo-mark--compact' : ''}`} aria-label="ZiPlok">
+      <span aria-hidden="true">
+        Z<span className="logo-i">i</span>Pl<span className="logo-o">o</span>k
+      </span>
+    </span>
+  );
+}
+
+function TelegramPlaneIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden
+      className="telegram-plane"
+    >
+      <path
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth="0.7"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"
+      />
+    </svg>
+  );
+}
 
 type ZipType = 'hero' | 'chaos' | 'community' | 'empty' | 'service';
 type ZipSize = 'small' | 'medium' | 'default' | 'empty';
@@ -52,7 +83,7 @@ function ZipPackage({ type = 'hero', size = 'default', rotation = -4, glow = tru
                 <div className="zip-content">
                   {type === 'community' ? (
                     <div className="telegram-card">
-                      <div className="telegram-mark"><Send size={18} fill="currentColor" /></div>
+                      <div className="telegram-mark"><TelegramPlaneIcon size={18} /></div>
                       <strong>ZiPlok</strong>
                       <span>Community</span>
                     </div>
@@ -105,20 +136,20 @@ function Header({ onOpen }: { onOpen: () => void }) {
   return (
     <header className="site-header">
       <div className="frame header-inner">
-        <a className="brand" href="#top" onClick={closeMenu} data-testid="link-brand">
-          <span className="brand-name">ZiPlok</span><span className="brand-sub">Студия<br />запусков</span>
+        <a className="brand" href="#top" onClick={closeMenu} aria-label="ZiPlok — студия запусков" data-testid="link-brand">
+          <ZiPlokLogo /><span className="brand-sub">Студия запусков</span>
         </a>
         <nav className="nav-links" aria-label="Основная навигация">
           {links.map(([label, href]) => <a href={href} key={href} data-testid={`link-nav-${href.slice(1)}`}>{label}</a>)}
         </nav>
-        <button className="header-cta" onClick={onOpen} data-testid="button-header-community">Войти в комьюнити <ArrowUpRight size={13} /></button>
+        <button className="header-cta" onClick={onOpen} data-testid="button-header-community"><TelegramPlaneIcon size={14} />Войти в комьюнити</button>
         <button className="menu-toggle" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'} data-testid="button-mobile-menu">
           {menuOpen ? <X size={19} /> : <Menu size={19} />}
         </button>
       </div>
       <nav className={`mobile-nav ${menuOpen ? 'open' : ''}`} aria-label="Мобильная навигация">
         {links.map(([label, href]) => <a href={href} key={href} onClick={closeMenu} data-testid={`link-mobile-${href.slice(1)}`}>{label}</a>)}
-        <button className="header-cta" onClick={() => { closeMenu(); onOpen(); }} data-testid="button-mobile-community">Войти в комьюнити <ArrowUpRight size={13} /></button>
+        <button className="header-cta" onClick={() => { closeMenu(); onOpen(); }} data-testid="button-mobile-community"><TelegramPlaneIcon size={14} />Войти в комьюнити</button>
       </nav>
     </header>
   );
@@ -178,7 +209,7 @@ function Hero({ onOpen }: { onOpen: () => void }) {
         <div className="title-rule" />
         <p className="hero-lede">Из эксперта — в понятный продукт.<br />Из идеи — в систему продаж.<br />Из системы — в запуск.</p>
         <div className="hero-actions">
-          <button className="primary-cta" onClick={onOpen} data-testid="button-hero-community">Войти в комьюнити <ArrowUpRight size={14} /></button>
+          <button className="primary-cta" onClick={onOpen} data-testid="button-hero-community">Войти в комьюнити <TelegramPlaneIcon size={15} /></button>
           <span className="microcopy">Закрытое Telegram-сообщество для экспертов, продюсеров и тех, кто строит продукты</span>
         </div>
         <div className="scroll-cue">листай, здесь всё по полочкам</div>
@@ -229,24 +260,124 @@ function Services() {
 }
 
 function Community({ onOpen }: { onOpen: () => void }) {
-  return <section className="section" id="community"><div className="frame community">
-    <Reveal className="community-art"><><ZipPackage type="community" rotation={-7} /><div className="community-callout">Здесь начинается<br />реальный запуск</div></></Reveal>
-    <Reveal className="community-copy" delay={.1}><div className="eyebrow">03 / ZiPlok Community</div><h2 className="display">ZiPlok<br />Community</h2><div className="violet-label">Твое сообщество по запускам</div><p>Закрытое Telegram-комьюнити для экспертов, продюсеров и тех, кто строит продукты.<br /><br />Здесь мы разбираем кейсы, даем инструменты и выстраиваем рабочие системы.</p><div className="inside-title">Что внутри:</div><ul className="inside-list">{['Разборы запусков', 'Созвоны с командой', 'Свежие инструменты', 'Живое общение', 'Кейсы и ошибки', 'Поддержка команды'].map((item) => <li key={item}>{item}</li>)}</ul><button className="primary-cta" onClick={onOpen} data-testid="button-community-section">Войти в комьюнити <ArrowUpRight size={14} /></button></Reveal>
-  </div></section>;
+  const inside = ['Разборы запусков', 'Созвоны с командой', 'Свежие инструменты', 'Живое общение', 'Кейсы и ошибки', 'Поддержка команды'];
+  return (
+    <section className="section community-section" id="community">
+      <div className="frame community">
+        <Reveal className="community-art">
+          <div className="community-stage">
+            <div className="community-callout community-callout--left">Здесь начинается<br />реальный запуск</div>
+            <ZipPackage type="community" rotation={-7} />
+            <div className="community-callout community-callout--right">Больше, чем<br />просто лента</div>
+          </div>
+        </Reveal>
+        <Reveal className="community-copy" delay={0.1}>
+          <div className="eyebrow">03 / ZiPlok Community</div>
+          <h2 className="display community-title">ZiPlok<br />Community</h2>
+          <div className="violet-label">Твоё сообщество по запускам</div>
+          <p>
+            Закрытое Telegram-комьюнити для экспертов, продюсеров и тех, кто строит продукты.
+            <br /><br />
+            Здесь мы разбираем кейсы, даём инструменты и выстраиваем рабочие системы.
+          </p>
+          <div className="inside-title">Что внутри:</div>
+          <ul className="inside-list">
+            {inside.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+          <button className="primary-cta" onClick={onOpen} data-testid="button-community-section">
+            <TelegramPlaneIcon size={15} />
+            Войти в комьюнити
+            <ArrowRight size={15} strokeWidth={2.2} aria-hidden />
+          </button>
+        </Reveal>
+      </div>
+    </section>
+  );
 }
 
 function FitAndCta({ onOpen }: { onOpen: () => void }) {
-  return <section className="section" id="fit"><div className="frame fit-cta">
-    <Reveal className="fit"><div className="eyebrow">04 / Для своих</div><h2 className="display">Кому мы<br />подходим?</h2><ul className="fit-list">{['Экспертам, которые хотят превратить знания в продукт.', 'Экспертам и продюсерам, которые уже создают или масштабируют проекты.', 'Начинающим экспертам, которые хотят сразу построить нормальную систему.', 'Предпринимателям, которые запускают новый или существующий продукт.', 'Тем, кто уже запускался, но не получил тот результат.'].map((item) => <li key={item}>{item}</li>)}</ul></Reveal>
-    <Reveal className="last-cta" delay={.1}><div className="last-cta-card"><div className="eyebrow">05 / Первый шаг</div><h3 className="display">А если ты пока не готов к запуску?</h3><p>Покажем, с чего тебе лучше начать. И с чем идти дальше.</p><button className="primary-cta" onClick={onOpen} data-testid="button-review">Получить разбор <ArrowUpRight size={14} /></button></div><div className="last-cta-art"><ZipPackage type="empty" size="empty" rotation={8} /><div className="empty-callout">Начни<br />с разбора</div></div></Reveal>
-  </div></section>;
+  const fitItems = [
+    'Экспертам, которые хотят превратить знания в продукт.',
+    'Экспертам с аудиторией, которые не понимают, как системно её монетизировать.',
+    'Начинающим экспертам, которые хотят сразу построить нормальную систему.',
+    'Предпринимателям, которые запускают новое направление.',
+    'Тем, кто уже запускался, но не получил нужный результат.',
+  ];
+  return (
+    <section className="section fit-section" id="fit">
+      <div className="frame fit-board">
+        <Reveal className="fit-col fit-col--list">
+          <h2 className="display fit-title">Кому мы<br />подходим?</h2>
+          <ul className="fit-list">
+            {fitItems.map((item) => (
+              <li key={item}>
+                <span className="fit-check" aria-hidden><Check size={11} strokeWidth={3.2} /></span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <Reveal className="fit-col fit-col--cta" delay={0.08}>
+          <h3 className="display fit-cta-title">А если ты пока<br />не готов к запуску?</h3>
+          <p className="fit-cta-text">
+            Мы можем сделать разбор твоей ситуации.
+            <br />
+            Покажем, что можно улучшить и с чего начать.
+          </p>
+          <button className="primary-cta fit-cta-button" onClick={onOpen} data-testid="button-review">
+            Получить разбор
+            <ArrowRight size={15} strokeWidth={2.2} aria-hidden />
+          </button>
+        </Reveal>
+
+        <Reveal className="fit-col fit-col--art" delay={0.14}>
+          <div className="fit-art-stage">
+            <ZipPackage type="empty" size="empty" rotation={10} />
+            <div className="empty-callout">Начни<br />с разбора</div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
 }
 
 function Footer({ onOpen }: { onOpen: () => void }) {
-  return <footer className="site-footer"><div className="frame">
-    <div className="footer-top"><div className="footer-brand"><div className="brand-name">ZiPlok</div><p>Студия запусков<br />Упаковываем с 0.</p></div><div><div className="process"><span>Эксперт</span><i>→</i><span>Продукт</span><i>→</i><span>Система</span><i>→</i><span>Запуск</span><i>→</i><span>Продажи</span></div><button className="primary-cta" onClick={onOpen} style={{ margin: '26px auto 0', display: 'flex' }} data-testid="button-footer-community">Войти в комьюнити <ArrowUpRight size={14} /></button></div><div className="footer-channel"><Send size={19} /><span>Telegram-канал<br /><strong>ZiPlok Community</strong></span></div></div>
-    <div className="footer-bottom"><span>© 2026 ZiPlok Studio</span><a href="#top" data-testid="link-footer-privacy">Политика конфиденциальности</a></div>
-  </div></footer>;
+  return (
+    <footer className="site-footer">
+      <div className="frame">
+        <div className="footer-top">
+          <div className="footer-brand">
+            <ZiPlokLogo compact />
+            <p>Студия запусков<br />Упаковываем с 0.</p>
+          </div>
+          <div className="footer-center">
+            <div className="process">
+              <span>Эксперт</span><i>→</i>
+              <span>Продукт</span><i>→</i>
+              <span>Система</span><i>→</i>
+              <span>Запуск</span><i>→</i>
+              <span>Продажи</span>
+            </div>
+            <button className="primary-cta footer-cta" onClick={onOpen} data-testid="button-footer-community">
+              <TelegramPlaneIcon size={15} />
+              Войти в комьюнити
+              <ArrowRight size={15} strokeWidth={2.2} aria-hidden />
+            </button>
+          </div>
+          <a className="footer-channel" href="#community" data-testid="link-footer-telegram">
+            <span className="footer-channel-icon"><TelegramPlaneIcon size={18} /></span>
+            <span>Telegram-сообщество<br /><strong>ZiPlok Community</strong></span>
+          </a>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 ZiPlok Studio</span>
+          <span>Запуски, которые работают</span>
+          <a href="#top" data-testid="link-footer-privacy">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </footer>
+  );
 }
 
 function Home() {
