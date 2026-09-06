@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
+import heroPackageImage from '@assets/1b_1788715982983.png';
 
 const queryClient = new QueryClient();
 
@@ -18,55 +19,61 @@ interface ZipPackageProps {
   size?: ZipSize;
   rotation?: number;
   glow?: boolean;
+  photo?: boolean;
   children?: ReactNode;
   className?: string;
 }
 
-function ZipPackage({ type = 'hero', size = 'default', rotation = -4, glow = true, children, className = '' }: ZipPackageProps) {
+function ZipPackage({ type = 'hero', size = 'default', rotation = -4, glow = true, photo = false, children, className = '' }: ZipPackageProps) {
   const defaultItems = ['Позиционирование', 'Продукт', 'Воронка', 'Контент', 'Продажи', 'Запуск'];
   const chaosItems = ['ИДЕЯ', 'АУДИТОРИЯ', 'КОНТЕНТ', 'ПРОДАЖИ', 'ВОРОНКА', 'УПАКОВКА'];
   const isEmpty = type === 'empty';
+  const usePhoto = photo && type === 'hero';
   return (
     <motion.div
-      className={`zip-package ${size === 'default' ? '' : `is-${size}`} ${glow ? 'zip-float' : ''} ${className}`}
-      style={{ '--rotation': `${rotation}deg`, filter: glow ? 'drop-shadow(0 24px 30px rgba(0,0,0,.5)) drop-shadow(0 0 27px rgba(90,58,225,.17))' : undefined } as CSSProperties}
+      className={`zip-package ${usePhoto ? 'photo-package' : ''} ${size === 'default' ? '' : `is-${size}`} ${glow ? 'zip-float' : ''} ${className}`}
+      style={{ '--rotation': `${rotation}deg`, filter: glow && !usePhoto ? 'drop-shadow(0 24px 30px rgba(0,0,0,.5)) drop-shadow(0 0 27px rgba(90,58,225,.17))' : undefined } as CSSProperties}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
       aria-label="Прозрачный ZIP-пакет ZiPlok"
     >
-      <div className="zip-seal" />
-      <div className="zip-body">
-        <div className="zip-glare" />
-        {children ?? (
-          isEmpty ? <div className="zip-empty-line" /> : (
-            <div className="zip-content">
-              {type === 'community' ? (
-                <div className="telegram-card">
-                  <div className="telegram-mark"><Send size={18} fill="currentColor" /></div>
-                  <strong>ZiPlok</strong>
-                  <span>Community</span>
+      {usePhoto ? <img className="zip-photo" src={heroPackageImage} alt="ZiPlok — все в одном пакете" /> : (
+        <>
+          <div className="zip-seal" />
+          <div className="zip-body">
+            <div className="zip-glare" />
+            {children ?? (
+              isEmpty ? <div className="zip-empty-line" /> : (
+                <div className="zip-content">
+                  {type === 'community' ? (
+                    <div className="telegram-card">
+                      <div className="telegram-mark"><Send size={18} fill="currentColor" /></div>
+                      <strong>ZiPlok</strong>
+                      <span>Community</span>
+                    </div>
+                  ) : type === 'chaos' ? (
+                    <div className="zip-chaos-labels">
+                      {chaosItems.map((item, index) => <span className="zip-tag" key={item} style={{ left: `${8 + (index % 3) * 27}%`, top: `${19 + Math.floor(index / 3) * 33}%`, transform: `rotate(${index % 2 ? 5 : -5}deg)` }}>{item}</span>)}
+                    </div>
+                  ) : (
+                    <div className="zip-card">
+                      <div className="zip-card-label">ZiPlok</div>
+                      <div className="zip-card-kicker">СТУДИЯ ЗАПУСКОВ</div>
+                      <div className="zip-list">
+                        {defaultItems.map((item) => <div className="zip-list-item" key={item}>{item}</div>)}
+                      </div>
+                      <div className="zip-side-note">Все<br />в одном<br />пакете</div>
+                      <div className="zip-barcode" />
+                    </div>
+                  )}
                 </div>
-              ) : type === 'chaos' ? (
-                <div className="zip-chaos-labels">
-                  {chaosItems.map((item, index) => <span className="zip-tag" key={item} style={{ left: `${8 + (index % 3) * 27}%`, top: `${19 + Math.floor(index / 3) * 33}%`, transform: `rotate(${index % 2 ? 5 : -5}deg)` }}>{item}</span>)}
-                </div>
-              ) : (
-                <div className="zip-card">
-                  <div className="zip-card-label">ZiPlok</div>
-                  <div className="zip-card-kicker">СТУДИЯ ЗАПУСКОВ</div>
-                  <div className="zip-list">
-                    {defaultItems.map((item) => <div className="zip-list-item" key={item}>{item}</div>)}
-                  </div>
-                  <div className="zip-side-note">Все<br />в одном<br />пакете</div>
-                  <div className="zip-barcode" />
-                </div>
-              )}
-            </div>
-          )
-        )}
-      </div>
+              )
+            )}
+          </div>
+        </>
+      )}
     </motion.div>
   );
 }
@@ -174,7 +181,7 @@ function Hero({ onOpen }: { onOpen: () => void }) {
         <div className="scroll-cue">листай, здесь всё по полочкам</div>
       </Reveal>
       <div className="hero-art" aria-label="Пакет с системой запуска">
-        <ZipPackage type="hero" rotation={-5} />
+        <ZipPackage type="hero" photo rotation={-5} />
       </div>
     </section>
   );

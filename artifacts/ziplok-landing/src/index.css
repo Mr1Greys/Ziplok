@@ -171,6 +171,8 @@
 .zip-float { animation: floatPackage 7s ease-in-out infinite; }
 @keyframes floatPackage { 0%,100% { transform: translate3d(0,0,0) rotate(-4deg); } 50% { transform: translate3d(0,-12px,0) rotate(-1.5deg); } }
 .zip-package { width: var(--zip-w, 330px); height: var(--zip-h, 430px); position: relative; filter: drop-shadow(0 24px 30px rgba(0,0,0,.5)); transform: rotate(var(--rotation, -4deg)); }
+.photo-package { width: min(100%, 500px); height: auto; aspect-ratio: 1338 / 1175; }
+.zip-photo { width: 100%; height: 100%; display: block; object-fit: contain; mix-blend-mode: screen; filter: drop-shadow(0 24px 30px rgba(0,0,0,.5)) drop-shadow(0 0 27px rgba(90,58,225,.17)); }
 .zip-package.is-small { --zip-w: 128px; --zip-h: 160px; }
 .zip-package.is-medium { --zip-w: 230px; --zip-h: 290px; }
 .zip-package.is-empty { --zip-w: 270px; --zip-h: 340px; }
