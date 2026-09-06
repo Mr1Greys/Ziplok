@@ -8,6 +8,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import heroPackageImage from '@assets/b11_1788716379606.png';
+import chaosPackageImage from '@assets/b2_1788716744756.png';
 
 const queryClient = new QueryClient();
 
@@ -20,15 +21,17 @@ interface ZipPackageProps {
   rotation?: number;
   glow?: boolean;
   photo?: boolean;
+  imageSrc?: string;
   children?: ReactNode;
   className?: string;
 }
 
-function ZipPackage({ type = 'hero', size = 'default', rotation = -4, glow = true, photo = false, children, className = '' }: ZipPackageProps) {
+function ZipPackage({ type = 'hero', size = 'default', rotation = -4, glow = true, photo = false, imageSrc, children, className = '' }: ZipPackageProps) {
   const defaultItems = ['Позиционирование', 'Продукт', 'Воронка', 'Контент', 'Продажи', 'Запуск'];
   const chaosItems = ['ИДЕЯ', 'АУДИТОРИЯ', 'КОНТЕНТ', 'ПРОДАЖИ', 'ВОРОНКА', 'УПАКОВКА'];
   const isEmpty = type === 'empty';
-  const usePhoto = photo && type === 'hero';
+  const resolvedImage = imageSrc ?? (photo && type === 'hero' ? heroPackageImage : undefined);
+  const usePhoto = Boolean(resolvedImage);
   return (
     <motion.div
       className={`zip-package ${usePhoto ? 'photo-package' : ''} ${size === 'default' ? '' : `is-${size}`} ${glow ? 'zip-float' : ''} ${className}`}
@@ -39,7 +42,7 @@ function ZipPackage({ type = 'hero', size = 'default', rotation = -4, glow = tru
       transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
       aria-label="Прозрачный ZIP-пакет ZiPlok"
     >
-      {usePhoto ? <img className="zip-photo" src={heroPackageImage} alt="ZiPlok — все в одном пакете" /> : (
+      {usePhoto ? <img className="zip-photo" src={resolvedImage ?? heroPackageImage} alt={type === 'chaos' ? 'ZiPlok — хаос вокруг запуска' : 'ZiPlok — все в одном пакете'} /> : (
         <>
           <div className="zip-seal" />
           <div className="zip-body">
@@ -208,9 +211,7 @@ function ChaosSection() {
       <div className="chaos-foot">ZiPlok закрывает этот хаос.</div>
     </Reveal>
     <Reveal className="chaos-art" delay={.15}>
-      <span className="question-mark q-one">?</span><span className="question-mark q-two">?</span><span className="question-mark q-three">?</span>
-      <ZipPackage type="chaos" rotation={7} />
-      <div className="chaos-callout">Мы собрали<br />всё в систему</div>
+      <ZipPackage type="chaos" imageSrc={chaosPackageImage} rotation={7} />
     </Reveal>
   </div></section>;
 }
