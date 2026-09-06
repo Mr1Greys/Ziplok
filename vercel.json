@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "vite",
+  "framework": null,
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter @workspace/ziplok-landing run build",
-  "outputDirectory": "artifacts/ziplok-landing/dist/public",
+  "outputDirectory": "artifacts/ziplok-landing/dist",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
