@@ -268,10 +268,10 @@
 .community-section,
 .fit-section {
   scroll-margin-top: 88px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .community {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
   min-height: 620px;
   display: grid;
   grid-template-columns: .95fr 1.05fr;
@@ -418,8 +418,6 @@
   align-items: center;
   min-height: 520px;
   padding: 88px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
 }
 .fit-col { min-width: 0; }
 .fit-title {
