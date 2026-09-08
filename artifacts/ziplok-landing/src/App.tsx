@@ -16,15 +16,14 @@ import serviceContentImage from '@assets/service-content.png';
 import serviceSalesImage from '@assets/service-sales.png';
 import serviceLaunchImage from '@assets/service-launch.png';
 import communityPhoneImage from '@assets/community-phone.png';
+import ziplokLogoImage from '@assets/ziplok-logo.png';
 
 const queryClient = new QueryClient();
 
 function ZiPlokLogo({ compact = false }: { compact?: boolean }) {
   return (
     <span className={`logo-mark${compact ? ' logo-mark--compact' : ''}`} aria-label="ZiPlok">
-      <span aria-hidden="true">
-        Z<span className="logo-i">i</span>Pl<span className="logo-o">o</span>k
-      </span>
+      <img className="logo-mark-img" src={ziplokLogoImage} alt="" draggable={false} />
     </span>
   );
 }
