@@ -261,9 +261,23 @@
 .services-head { display: flex; align-items: end; justify-content: space-between; padding-bottom: 36px; border-bottom: 1px solid var(--line); }.services-head .section-title { margin-bottom: 0; }
 .services-note { color: var(--soft); font-size: 16px; max-width: 260px; line-height: 1.6; }
 .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-.service-card { min-height: 340px; padding: 31px 24px 35px 0; position: relative; border-bottom: 1px solid var(--line); }
+.service-card { min-height: 340px; padding: 31px 130px 35px 0; position: relative; border-bottom: 1px solid var(--line); }
 .service-card:not(:nth-child(3n+1)) { border-left: 1px solid var(--line); padding-left: 24px; }
-.service-index { color: var(--violet-soft); font: 10px var(--app-font-mono); }.service-card h3 { font: 600 22px 'Space Grotesk', sans-serif; letter-spacing: -.055em; margin: 28px 0 13px; text-transform: uppercase; }.service-card p { color: var(--soft); font-size: 16px; line-height: 1.6; max-width: 280px; min-height: 55px; }.service-card ul { display: grid; gap: 5px; color: #898590; font-size: 10px; list-style: none; padding: 0; margin: 17px 0 0; }.service-card li::before { content: "—"; color: var(--violet); margin-right: 8px; }.service-mini { position: absolute; right: 22px; top: 29px; opacity: .84; }.service-mini .zip-package { --zip-w: 74px; --zip-h: 95px; }.service-mini .zip-body { border-radius: 3px 3px 6px 6px; }.service-mini .zip-seal { height: 8px; }.service-mini .zip-seal::after { top: 3px; left: 4px; right: 4px; }.service-mini .zip-content { inset: 14px 10px 9px; }.service-mini .zip-card { padding: 6px; }.service-mini .zip-card-label { font-size: 11px; }.service-mini .zip-card-kicker, .service-mini .zip-list, .service-mini .zip-side-note, .service-mini .zip-barcode, .service-mini .zip-tag { display:none; }
+.service-index { color: var(--violet-soft); font: 10px var(--app-font-mono); }.service-card h3 { font: 600 22px 'Space Grotesk', sans-serif; letter-spacing: -.055em; margin: 28px 0 13px; text-transform: uppercase; }.service-card p { color: var(--soft); font-size: 16px; line-height: 1.6; max-width: 280px; min-height: 55px; }.service-card ul { display: grid; gap: 5px; color: #898590; font-size: 10px; list-style: none; padding: 0; margin: 17px 0 0; }.service-card li::before { content: "—"; color: var(--violet); margin-right: 8px; }.service-mini {
+  position: absolute;
+  right: 18px;
+  top: 24px;
+  width: 118px;
+  height: 118px;
+  pointer-events: none;
+}
+.service-mini-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 10px 22px rgba(88, 58, 210, .28));
+}
 
 .community-section,
 .fit-section {
@@ -287,6 +301,14 @@
   place-items: center;
 }
 .community-art .zip-package { --zip-w: 280px; --zip-h: 380px; }
+.community-photo {
+  width: min(100%, 520px);
+  height: auto;
+  aspect-ratio: 1024 / 892;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 28px 48px rgba(0, 0, 0, .55)) drop-shadow(0 0 36px rgba(109, 74, 255, .22));
+}
 .telegram-card {
   background: linear-gradient(160deg, #15151d 0%, #0b0b11 100%);
   color: white;

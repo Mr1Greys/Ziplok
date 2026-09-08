@@ -9,6 +9,13 @@ import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import heroPackageImage from '@assets/b11_1788716379606.png';
 import chaosPackageImage from '@assets/b2_1788716744756.png';
+import serviceExpertImage from '@assets/service-expert.png';
+import serviceProductImage from '@assets/service-product.png';
+import serviceFunnelImage from '@assets/service-funnel.png';
+import serviceContentImage from '@assets/service-content.png';
+import serviceSalesImage from '@assets/service-sales.png';
+import serviceLaunchImage from '@assets/service-launch.png';
+import communityPhoneImage from '@assets/community-phone.png';
 
 const queryClient = new QueryClient();
 
@@ -192,12 +199,12 @@ function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 }
 
 const serviceData = [
-  { index: '01', title: 'Эксперта', description: 'Твое понимание того, в чем твоя сила и за что тебе платят деньги.', items: ['Позиционирование', 'Ценности', 'Уникальность', 'УТП', 'Образ продукта'] },
-  { index: '02', title: 'Продукт', description: 'Превращаем знания и опыт в понятный продукт, который можно продавать.', items: ['Модель продукта', 'Программа', 'Услуги', 'Формат', 'Ценообразование', 'Упаковка ценности'] },
-  { index: '03', title: 'Воронку', description: 'Строим путь человека от первого касания до покупки.', items: ['Контент → интерес', 'Заявка → консультация', 'Продажа'] },
-  { index: '04', title: 'Контент', description: 'Контент должен не просто собирать просмотры. Он должен продавать.', items: ['Прогрев', 'Презентация', 'Экспертное доверие', 'Продажа'] },
-  { index: '05', title: 'Продажи', description: 'Настраиваем систему, которая превращает интерес в деньги.', items: ['Офферы', 'Диагностика', 'Обработка возражений', 'Продажи', 'Повторные касания'] },
-  { index: '06', title: 'Запуск', description: 'Собираем всё вместе и выстраиваем процесс.', items: ['Стратегия', 'Трафик', 'Контент', 'Воронка', 'Продажи', 'Аналитика', 'Масштабирование'] },
+  { index: '01', title: 'Эксперта', description: 'Твое понимание того, в чем твоя сила и за что тебе платят деньги.', items: ['Позиционирование', 'Ценности', 'Уникальность', 'УТП', 'Образ продукта'], image: serviceExpertImage },
+  { index: '02', title: 'Продукт', description: 'Превращаем знания и опыт в понятный продукт, который можно продавать.', items: ['Модель продукта', 'Программа', 'Услуги', 'Формат', 'Ценообразование', 'Упаковка ценности'], image: serviceProductImage },
+  { index: '03', title: 'Воронку', description: 'Строим путь человека от первого касания до покупки.', items: ['Контент → интерес', 'Заявка → консультация', 'Продажа'], image: serviceFunnelImage },
+  { index: '04', title: 'Контент', description: 'Контент должен не просто собирать просмотры. Он должен продавать.', items: ['Прогрев', 'Презентация', 'Экспертное доверие', 'Продажа'], image: serviceContentImage },
+  { index: '05', title: 'Продажи', description: 'Настраиваем систему, которая превращает интерес в деньги.', items: ['Офферы', 'Диагностика', 'Обработка возражений', 'Продажи', 'Повторные касания'], image: serviceSalesImage },
+  { index: '06', title: 'Запуск', description: 'Собираем всё вместе и выстраиваем процесс.', items: ['Стратегия', 'Трафик', 'Контент', 'Воронка', 'Продажи', 'Аналитика', 'Масштабирование'], image: serviceLaunchImage },
 ];
 
 function Hero({ onOpen }: { onOpen: () => void }) {
@@ -252,7 +259,10 @@ function Services() {
     <Reveal className="services-head"><><div><div className="eyebrow">02 / Внутри пакета</div><h2 className="display section-title">Что мы<br />упаковываем?</h2></div><p className="services-note">Не отдельные услуги.<br />Связанную систему,<br />которая выдерживает запуск.</p></></Reveal>
     <div className="service-grid">
       {serviceData.map((service, index) => <Reveal className="service-card" delay={index * .04} key={service.index}>
-        <span className="service-index">{service.index}</span><div className="service-mini"><ZipPackage type="hero" size="small" rotation={index % 2 ? 5 : -5} glow={false} /></div>
+        <span className="service-index">{service.index}</span>
+        <div className="service-mini">
+          <img className="service-mini-photo" src={service.image} alt={`ZiPlok — ${service.title}`} loading="lazy" />
+        </div>
         <h3>{service.title}</h3><p>{service.description}</p><ul>{service.items.map((item) => <li key={item}>{item}</li>)}</ul>
       </Reveal>)}
     </div>
@@ -266,8 +276,11 @@ function Community({ onOpen }: { onOpen: () => void }) {
       <div className="frame community">
         <Reveal className="community-art">
           <div className="community-stage">
-            <div className="community-callout community-callout--left">Здесь начинается<br />реальный запуск</div>
-            <ZipPackage type="community" rotation={-7} />
+            <img
+              className="community-photo"
+              src={communityPhoneImage}
+              alt="ZiPlok Community в Telegram — здесь начинается реальный запуск"
+            />
             <div className="community-callout community-callout--right">Больше, чем<br />просто лента</div>
           </div>
         </Reveal>
